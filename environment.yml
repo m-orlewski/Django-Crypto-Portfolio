@@ -1,0 +1,34 @@
+name: pite-project
+channels:
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - _openmp_mutex=4.5=1_gnu
+  - asgiref=3.4.1=pyhd3eb1b0_0
+  - ca-certificates=2021.10.26=h06a4308_2
+  - certifi=2021.10.8=py38h06a4308_0
+  - django=3.2.5=pyhd3eb1b0_0
+  - krb5=1.19.2=hac12032_0
+  - ld_impl_linux-64=2.35.1=h7274673_9
+  - libedit=3.1.20210910=h7f8727e_0
+  - libffi=3.3=he6710b0_2
+  - libgcc-ng=9.3.0=h5101ec6_17
+  - libgomp=9.3.0=h5101ec6_17
+  - libpq=12.2=h553bfba_1
+  - libstdcxx-ng=9.3.0=hd4cf53a_17
+  - ncurses=6.3=h7f8727e_2
+  - openssl=1.1.1l=h7f8727e_0
+  - pip=21.2.4=py38h06a4308_0
+  - psycopg2=2.8.6=py38h3c74f83_1
+  - python=3.8.10=h12debd9_8
+  - pytz=2021.3=pyhd3eb1b0_0
+  - readline=8.1=h27cfd23_0
+  - setuptools=58.0.4=py38h06a4308_0
+  - sqlite=3.36.0=hc218d9a_0
+  - sqlparse=0.4.1=py_0
+  - tk=8.6.11=h1ccaba5_0
+  - typing_extensions=3.10.0.2=pyh06a4308_0
+  - wheel=0.37.0=pyhd3eb1b0_1
+  - xz=5.2.5=h7b6447c_0
+  - zlib=1.2.11=h7b6447c_3
+prefix: /home/morlewski/miniconda3/envs/pite-project
