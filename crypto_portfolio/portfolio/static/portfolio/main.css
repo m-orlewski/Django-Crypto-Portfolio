@@ -1,3 +1,8 @@
 body {
     background-color: lightgray;
 }
+
+.table-responsive {
+    height: 500px;
+}
+

@@ -1,0 +1,44 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+    <h1>Lista coins</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>                
+            <th scope="col">Logo</th>                
+            <th scope="col">Name</th>                
+            <th scope="col">Rank</th>                
+            <th scope="col">Market cap</th>
+            <th scope="col">Price</th>                                                
+        </tr>
+        </thead>
+    </table>
+    <div class="panel-body table-responsive" style="padding: 0px;">
+    <table class="table table-striped">
+        <thead style="display: none;">
+            <tr>                
+                <th scope="col">Logo</th>                
+                <th scope="col">Name</th>                
+                <th scope="col">Rank</th>                
+                <th scope="col">Market cap</th>
+                <th scope="col">Price</th>                                                
+            </tr>
+            </thead>
+        <tbody>               
+            {% if coins %}            
+                {% for coin in coins %}
+                    <tr>                
+                            <td><img src="{{coin.image}}" height="70px" alt="Coin Logo"></td>                
+                            <td class="align-middle">{{coin.name}}</td>           
+                            <td class="align-middle">{{coin.market_cap_rank}}</td>
+                            <td class="align-middle">{{coin.market_cap}}</td>                
+                            <td class="align-middle">{{coin.current_price}} USD</td>             
+                    </tr>            
+                {% endfor %}            
+            {% else %}            
+                <p>Nothing Here to show</p>            
+            {% endif %}        
+        </tbody>
+    </table>
+    </div>
+{% endblock content %}
