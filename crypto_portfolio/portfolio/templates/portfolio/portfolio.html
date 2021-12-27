@@ -2,15 +2,18 @@
 
 {% block content %}
 
+<button class="add-button" onclick="">Add new asset</button>
+
 {% if assets %}            
     {% for asset in assets %}
         <p>{{asset.name}} {{asset.amount}} {{asset.price}}</p>           
     {% endfor %}            
     {% else %}            
-        <p>Nothing Here to show</p>            
-{% endif %}  
-<!--
-    <h1>Lista coins</h1>
+        <p>Your portfolio is empty</p>    
+        <button class="add-button" onclick="">Add new asset</button>   
+{% endif %} 
+
+    <h1>List of all available coins</h1>
     <table class="table table-striped">
         <thead>
         <tr>                
@@ -50,5 +53,4 @@
         </tbody>
     </table>
     </div>
--->
 {% endblock content %}
