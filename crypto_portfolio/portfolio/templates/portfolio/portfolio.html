@@ -1,6 +1,15 @@
 {% extends "portfolio/base.html" %}
 
 {% block content %}
+
+{% if assets %}            
+    {% for asset in assets %}
+        <p>{{asset.name}} {{asset.amount}} {{asset.price}}</p>           
+    {% endfor %}            
+    {% else %}            
+        <p>Nothing Here to show</p>            
+{% endif %}  
+<!--
     <h1>Lista coins</h1>
     <table class="table table-striped">
         <thead>
@@ -25,8 +34,8 @@
             </tr>
             </thead>
         <tbody>               
-            {% if coins %}            
-                {% for coin in coins %}
+            {% if api_data %}            
+                {% for coin in api_data %}
                     <tr>                
                             <td><img src="{{coin.image}}" height="70px" alt="Coin Logo"></td>                
                             <td class="align-middle">{{coin.name}}</td>           
@@ -41,4 +50,5 @@
         </tbody>
     </table>
     </div>
+-->
 {% endblock content %}
