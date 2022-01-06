@@ -10,4 +10,5 @@ urlpatterns = [
     path('profile/', views.profile, name = 'portfolio-profile'),
     path('login/', logged_views.LoginView.as_view(template_name = 'users/login.html'), name = 'portfolio-login'),
     path('logout/', logged_views.LogoutView.as_view(template_name = 'users/logout.html'), name = 'portfolio-logout'),
+    path('profile/form/', views.form, name = 'profile-form'),
 ]

@@ -1,31 +1,41 @@
-function show_window(){
+function show_window()
+{
     var list = document.getElementById('window-app');
     var buymenu = document.getElementById('window-app-buy');
     list.style.display="block";
 
-    window.addEventListener("click", function(event) {
-        if(event.target == list){
+    window.addEventListener("click", function(event)
+    {
+        if(event.target == list)
+        {
             list.style.display = "none";
         } 
     });
 
     var coll = document.getElementsByClassName("collapsible");
-    for (var i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function() {
-            alert(document.getElementsByClassName('p').textContent);
+    for (var i = 0; i < coll.length; i++)
+    {
+        coll[i].addEventListener("click", function()
+        {
             list.style.display = "none";
-            buymenu.style.display = "block";
-            document.getElementById('name').innerHTML = this.innerText;
+            sendId(this.id);
+            //buymenu.style.display = "block";
         });
     }
-    window.addEventListener("click", function(event) {
-        if(event.target == buymenu){
+    /*
+    window.addEventListener("click", function(event)
+    {
+        if(event.target == buymenu)
+        {
             list.style.display = "block";
             buymenu.style.display = "none";
-        }  
+        }
     });
+    */
 }
-function search(){
+
+function search()
+{
     var input, elements, txtValue, filter;
     input = document.getElementById('myInput');
     filter = input.value.toUpperCase();
@@ -43,7 +53,15 @@ function search(){
 }
 
 
-function calculate(){
+function calculate()
+{
     var val = document.getElementById('inputAmount');
     document.getElementById('amount').innerHTML = val.value;
+}
+
+function sendId(id)
+{
+    var params = [];
+    params.push("id=" + id);
+    location.href = "http://localhost:8000/portfolio/profile/form?" + params.join("&");
 }
