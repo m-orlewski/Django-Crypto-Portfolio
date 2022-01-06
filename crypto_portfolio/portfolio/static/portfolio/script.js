@@ -63,5 +63,16 @@ function sendId(id)
 {
     var params = [];
     params.push("id=" + id);
+    console.log(id);
     location.href = "http://localhost:8000/portfolio/profile/form?" + params.join("&");
+}
+
+function show(){
+    var list = document.getElementById("user_port");
+    if(list.style.display == "block"){
+        list.style.display = "none";
+    }
+    else{
+        list.style.display = "block";
+    }
 }
