@@ -41,7 +41,8 @@
 
 {% if assets %}            
     {% for asset in assets %}
-        <p>{{asset.name}} {{asset.amount}} {{asset.price}}</p>           
+        <p>{{asset.name}} {{asset.amount}} {{asset.price}}</p>
+        <img src="data:image/png;base64, {{asset.graph|safe}}">
     {% endfor %}            
     {% else %}            
         <p>Your portfolio is empty</p>    

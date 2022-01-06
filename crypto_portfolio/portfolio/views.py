@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import ListView
 from . import portfolio_utils as pu
 from .forms import AssetForm
-from .utils import *
+# from .utils import *
 
 from .models import Asset, Portfolio
 
@@ -15,13 +15,14 @@ def profile(request):
     try:
         current_portfolio = Portfolio.objects.get(user=current_user)
         user_assets = Asset.objects.filter(portfolio=current_portfolio)
+        for asset in user_assets:
+                asset.graph = pu.get_plot(pu.get_ml_data(asset.coin_id))
     except:
+        current_portfolio = Portfolio.objects.create(user=current_user)
         user_assets = {}
 
 
     data = pu.make_request()
-
-    chart = get_plot([1,2,3], [1,4,9])
 
     if request.method == "POST":
         form = AssetForm(request.POST)
@@ -34,7 +35,9 @@ def profile(request):
                           )
             asset.save()
             user_assets = Asset.objects.filter(portfolio=current_portfolio)
-    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'chart': chart})
+            for asset in user_assets:
+                asset.graph = pu.get_plot(pu.get_ml_data(asset.coin_id))
+    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data})
 
 def form(request):
     if request.GET:
