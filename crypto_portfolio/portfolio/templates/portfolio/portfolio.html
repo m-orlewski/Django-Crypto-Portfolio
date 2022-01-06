@@ -2,7 +2,42 @@
 
 {% block content %}
 
-<button class="add-button" onclick="">Add new asset</button>
+<button class="add-button" onclick="show_window()" id="test1">Choose and Buy Currency</button>
+
+<div id="window-app" class = "modal">
+    <div class = "modal-content">
+        <input type="text" id="myInput" onkeyup="search()" placeholder="Search for Crypto..." style = "margin-bottom: 20px;"></input>
+        <div class="panel-body table-responsive">
+            {% if api_data %}            
+                {% for coin in api_data %}
+                    <button class = "collapsible" id="{{coin.id}}" style = "width: 100%; margin-bottom: 10px;">
+                        <div class = "content">
+                            <p>{{coin.id}}</p>        
+                            <img src="{{coin.image}}" height="70px" alt="Coin Logo">
+                            <div class = "p">{{coin.name}}</div>
+                            <div style="display: none;" class = "price">{{coin.current_price}} USD</div> 
+                        </div> 
+                    </button>                  
+                {% endfor %}            
+            {% else %}            
+                <p>Nothing Here to show</p>            
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div id="window-app-buy" class = "modal">
+    <div class = "modal-content">
+        <form action="/profile/" method="post">
+            {{ form }}
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</div>
+
+
+
+
 
 {% if assets %}            
     {% for asset in assets %}
