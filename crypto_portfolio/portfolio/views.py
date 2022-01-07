@@ -19,9 +19,15 @@ def profile(request):
         current_portfolio = Portfolio.objects.create(user=current_user)
         user_assets = {}
 
-
+    
     data = pu.make_request()
     chart = get_plot([1,2,3], [1,4,9])
+    print(user_assets.values('coin_id'))
+    for asset in user_assets.all():
+        for elem in data:
+            if asset.coin_id == elem['id']:
+                print(asset.coin_id)
+
 
     if request.method == "POST":
         form = AssetForm(request.POST)

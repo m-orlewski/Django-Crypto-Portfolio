@@ -12,3 +12,9 @@ def make_request():
     
     return response.json()
 
+
+#Calc functions
+
+
+def add_data(user_asset, data):
+    print()
