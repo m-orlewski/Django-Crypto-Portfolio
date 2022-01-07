@@ -32,7 +32,7 @@ def coin_request(coin):
     return response.json()
 
 def get_ml_data(coin):
-    logging.warning("get_ml_data")
+    #logging.warning("get_ml_data")
     dataset = pd.DataFrame.from_dict(coin_request(coin))
     for id in dataset.index:
         for col in ['prices', 'market_caps', 'total_volumes']:
@@ -50,7 +50,7 @@ def get_ml_data(coin):
     
 
 def get_graph():
-    logging.warning("get_graph")
+    #logging.warning("get_graph")
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
@@ -62,7 +62,7 @@ def get_graph():
     return graph
 
 def get_plot(x):
-    logging.warning("get_plot")
+    #logging.warning("get_plot")
     plt.switch_backend('AGG')
     plt.figure(figsize=(10,5))
     plt.xlabel('Days')

@@ -11,8 +11,7 @@
             {% if api_data %}            
                 {% for coin in api_data %}
                     <button class = "collapsible" id="{{coin.id}}" style = "width: 100%; margin-bottom: 10px;">
-                        <div class = "content">
-                            <p>{{coin.id}}</p>        
+                        <div class = "content">     
                             <img src="{{coin.image}}" height="70px" alt="Coin Logo">
                             <div class = "p">{{coin.name}}</div>
                             <div style="display: none;" class = "price">{{coin.current_price}} USD</div> 
@@ -38,16 +37,35 @@
 
 
 
-
-{% if assets %}            
-    {% for asset in assets %}
-        <p>{{asset.name}} {{asset.amount}} {{asset.price}}</p>
-        <img src="data:image/png;base64, {{asset.graph|safe}}">
-    {% endfor %}            
-    {% else %}            
-        <p>Your portfolio is empty</p>    
-        <button class="add-button" onclick="">Add new asset</button>   
-{% endif %} 
+<button class="add-button" onclick="show()">Show portfolio</button>
+<div id="user_port" style = "display: none">
+    <table class="table table-striped">
+        <thead>
+        <tr>                              
+            <th scope="col">Name</th>                
+            <th scope="col">Amount</th>                
+            <th scope="col">Price</th>                                                
+        </tr>
+        </thead>
+    </table>
+    <div class="panel-body table-responsive" style="padding: 0px;">
+    <table class="table table-striped">
+        <tbody>               
+            {% if assets %}           
+                {% for asset in assets %}
+                    <tr>
+                        <td class="align-middle">{{asset.name}}</td>           
+                        <td class="align-middle">{{asset.amount}}</td>
+                        <td class="align-middle">{{asset.price}}</td>
+                    </tr>           
+                {% endfor %}            
+            {% else %}            
+                <p>Your portfolio is empty</p>       
+            {% endif %}       
+        </tbody>
+    </table>
+    </div>
+</div>   
 
     <h1>List of all available coins</h1>
     <table class="table table-striped">
