@@ -22,10 +22,15 @@ def make_request():
     return response.json()
 
 #Calc functions
+def coin_request_daily(coin):
+    url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=1&interval=daily'
+    response = requests.get(url)
+    status_code = response.status_code
 
-
-def add_data(user_asset, data):
-    pass
+    if status_code != 200:
+        raise Exception(f"CoinGecko API call failed with status code: {status_code}")
+    
+    return response.json()
 
 def coin_request(coin):
     url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=max'
@@ -78,3 +83,21 @@ def get_plot(x):
     graph = get_graph()
     return graph
 
+#a few things to be done here below
+def add_data(user_assets, data):
+    NData = []
+    for asset in user_assets.all():
+        for elem in data:
+            if asset.coin_id == elem['id']:
+                history = coin_request_daily(elem['id'])
+                dictionary = {}
+                dictionary['id'] = asset.coin_id
+                dictionary['name'] = asset.name
+                dictionary['amount'] = asset.amount
+                dictionary['img'] = elem['image']
+                dictionary['price'] = float(str(round(elem['current_price'],4)))
+                dictionary['price_at_1am'] = float(str(round(history['prices'][0][1],4)))
+                dictionary['profit'] = float(str(round(history['prices'][1][1] - history['prices'][0][1],4)))
+                dictionary['profitP'] = float(str(round(((history['prices'][1][1] - history['prices'][0][1])/history['prices'][0][1]) * 100,4)))
+                NData.append(dictionary)
+    return NData

@@ -34,29 +34,29 @@ def profile(request):
 
     
     data = pu.make_request()
+    user_data = pu.add_data(user_assets, data)
 
-    print(user_assets.values('coin_id'))
-    for asset in user_assets.all():
-        for elem in data:
-            if asset.coin_id == elem['id']:
-                print(asset.coin_id)
-
-
+    
 
     if request.method == "POST":
         form = AssetForm(request.POST)
         if form.is_valid():
+            #removed price from form
+            for elem in data:
+                if elem['id'] == form.cleaned_data['id']:
+                    _price = elem['current_price']
+
             asset = Asset(amount = form.cleaned_data['amount'],
-                          price = form.cleaned_data['price'], 
+                          price = _price, 
                           portfolio = current_portfolio,
                           coin_id = form.cleaned_data['id'],
                           name = form.cleaned_data['id'].capitalize()
                           )
             asset.save()
             user_assets = Asset.objects.filter(portfolio=current_portfolio)
-            return HttpResponseRedirect('../../portfolio/profile') #why does it work?!
+            return HttpResponseRedirect('../../portfolio/profile') 
 
-    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data})
+    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data})
 
 def form(request):
     if request.GET:

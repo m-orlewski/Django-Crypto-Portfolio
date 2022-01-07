@@ -45,22 +45,26 @@
             <th scope="col">Logo</th>                              
             <th scope="col">Name</th>                
             <th scope="col">Amount</th>                
-            <th scope="col">Price</th>
-            <th scope="col">Profit</th>                                                
+            <th scope="col">Current Price</th>
+            <th scope="col">Price At 1 AM</th>
+            <th scope="col">Profit</th>
+            <th scope="col">Profit %</th>                                                   
         </tr>
         </thead>
     </table>
     <div class="panel-body table-responsive" style="padding: 0px;">
     <table class="table table-striped">
         <tbody>               
-            {% if assets %}           
-                {% for asset in assets %}
+            {% if user_data %}           
+                {% for data in user_data %}
                     <tr>
-                        <td><img src="{{coin.image}}" height="70px" alt="Coin Logo"></td> 
-                        <td class="align-middle">{{asset.name}}</td>           
-                        <td class="align-middle">{{asset.amount}}</td>
-                        <td class="align-middle">{{asset.price}}</td>
-                        <td class="align-middle" style ="color:green">69%</td>
+                        <td><img src="{{data.img}}" height="50px" alt="Coin Logo"></td> 
+                        <td class="align-middle">{{data.name}}</td>           
+                        <td class="align-middle">{{data.amount}}</td>
+                        <td class="align-middle">{{data.price}} USD</td>
+                        <td class="align-middle">{{data.price_at_1am}} USD</td>
+                        <td class="align-middle">{{data.profit}} USD</td>
+                        <td class="align-middle">{{data.profitP}}%</td>
                     </tr>           
                 {% endfor %}            
             {% else %}            
