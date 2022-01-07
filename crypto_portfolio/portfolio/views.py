@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.views.generic import ListView
 from . import portfolio_utils as pu
 from .forms import AssetForm
-from .utils import *
 from django.http import HttpResponseRedirect
 from .models import Asset, Portfolio
 
@@ -33,8 +32,16 @@ def profile(request):
         current_portfolio = Portfolio.objects.create(user=current_user)
         user_assets = {}
 
-
+    
     data = pu.make_request()
+
+    print(user_assets.values('coin_id'))
+    for asset in user_assets.all():
+        for elem in data:
+            if asset.coin_id == elem['id']:
+                print(asset.coin_id)
+
+
 
     if request.method == "POST":
         form = AssetForm(request.POST)

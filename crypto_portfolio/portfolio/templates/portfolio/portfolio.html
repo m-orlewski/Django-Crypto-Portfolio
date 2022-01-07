@@ -41,10 +41,12 @@
 <div id="user_port" style = "display: none">
     <table class="table table-striped">
         <thead>
-        <tr>                              
+        <tr> 
+            <th scope="col">Logo</th>                              
             <th scope="col">Name</th>                
             <th scope="col">Amount</th>                
-            <th scope="col">Price</th>                                                
+            <th scope="col">Price</th>
+            <th scope="col">Profit</th>                                                
         </tr>
         </thead>
     </table>
@@ -54,9 +56,11 @@
             {% if assets %}           
                 {% for asset in assets %}
                     <tr>
+                        <td><img src="{{coin.image}}" height="70px" alt="Coin Logo"></td> 
                         <td class="align-middle">{{asset.name}}</td>           
                         <td class="align-middle">{{asset.amount}}</td>
                         <td class="align-middle">{{asset.price}}</td>
+                        <td class="align-middle" style ="color:green">69%</td>
                     </tr>           
                 {% endfor %}            
             {% else %}            

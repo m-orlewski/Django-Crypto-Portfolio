@@ -21,6 +21,12 @@ def make_request():
     
     return response.json()
 
+#Calc functions
+
+
+def add_data(user_asset, data):
+    pass
+
 def coin_request(coin):
     url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=max'
     response = requests.get(url)
@@ -71,3 +77,4 @@ def get_plot(x):
     plt.tight_layout()
     graph = get_graph()
     return graph
+
