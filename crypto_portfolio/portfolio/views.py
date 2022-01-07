@@ -6,8 +6,22 @@ from .utils import *
 from django.http import HttpResponseRedirect
 from .models import Asset, Portfolio
 
-def home(request): 
-    return render(request, 'portfolio/home.html')
+def home(request):
+    current_user = request.user
+
+    try:
+        current_portfolio = Portfolio.objects.get(user=current_user)
+        user_assets = Asset.objects.filter(portfolio=current_portfolio)
+        for asset in user_assets:
+                asset.graph = pu.get_plot(pu.get_ml_data(asset.coin_id))
+    except:
+        current_portfolio = Portfolio.objects.create(user=current_user)
+        user_assets = {}
+
+    for asset in user_assets:
+        asset.graph = pu.get_plot(pu.get_ml_data(asset.coin_id))
+    
+    return render(request, 'portfolio/home.html', context={ 'assets': user_assets})
 
 def profile(request):
     current_user = request.user
@@ -21,7 +35,6 @@ def profile(request):
 
 
     data = pu.make_request()
-    chart = get_plot([1,2,3], [1,4,9])
 
     if request.method == "POST":
         form = AssetForm(request.POST)
@@ -36,7 +49,7 @@ def profile(request):
             user_assets = Asset.objects.filter(portfolio=current_portfolio)
             return HttpResponseRedirect('../../portfolio/profile') #why does it work?!
 
-    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'chart': chart})
+    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data})
 
 def form(request):
     if request.GET:

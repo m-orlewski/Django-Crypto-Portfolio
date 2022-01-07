@@ -2,4 +2,14 @@
 
 {% block content %}  
     <h1>HOME PAGE! </h1>
+
+    {% if assets %}            
+    {% for asset in assets %}
+        <p>{{asset.name}} {{asset.amount}} {{asset.price}}</p>
+        <img src="data:image/png;base64, {{asset.graph|safe}}">
+    {% endfor %}            
+    {% else %}            
+        <p>Your portfolio is empty</p>    
+        <button class="add-button" onclick="">Add new asset</button>   
+{% endif %} 
 {% endblock content %}
