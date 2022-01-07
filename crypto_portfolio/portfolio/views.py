@@ -17,10 +17,10 @@ def profile(request):
         user_assets = Asset.objects.filter(portfolio=current_portfolio)
     except:
         current_portfolio = Portfolio.objects.create(user=current_user)
+        user_assets = {}
 
 
     data = pu.make_request()
-
     chart = get_plot([1,2,3], [1,4,9])
 
     if request.method == "POST":
