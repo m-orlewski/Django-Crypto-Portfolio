@@ -34,13 +34,16 @@ def profile(request):
 
     
     data = pu.make_request()
+    total = pu.total_balance(user_assets.filter(coin_id='bitcoin'), 'bitcoin')
 
-    print(user_assets.values('coin_id'))
+    plot = pu.get_balance_plot(total)
+
+    #print(user_assets.values('coin_id'))
     for asset in user_assets.all():
         for elem in data:
             if asset.coin_id == elem['id']:
-                print(asset.coin_id)
-
+                pass
+                #print(asset.coin_id)
 
 
     if request.method == "POST":
@@ -56,7 +59,7 @@ def profile(request):
             user_assets = Asset.objects.filter(portfolio=current_portfolio)
             return HttpResponseRedirect('../../portfolio/profile') #why does it work?!
 
-    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data})
+    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'plot': plot})
 
 def form(request):
     if request.GET:
