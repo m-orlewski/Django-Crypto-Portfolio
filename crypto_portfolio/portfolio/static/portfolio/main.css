@@ -55,7 +55,7 @@ body {
 
 .table_responsive_body{
     overflow-y: scroll;
-    scrollbar-width: none;
+    scrollbar-width: none; 
 }
 
 .inner_table_responsive {

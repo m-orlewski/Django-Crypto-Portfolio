@@ -10,6 +10,7 @@ import json
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import logging
+from datetime import datetime
 
 def make_request():
     url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
@@ -24,6 +25,42 @@ def make_request():
 #Calc functions
 def coin_request_daily(coin):
     url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=1'
+    response = requests.get(url)
+    status_code = response.status_code
+
+
+    if status_code != 200:
+        raise Exception(f"CoinGecko API call failed with status code: {status_code}")
+    return response.json()
+
+def total_balance(assets, coin):
+    balance = [[], []]
+
+    data = coin_request_30d(coin)
+    assets_dates_unix = [[], []]
+    for asset in assets:
+        assets_dates_unix[0].append(asset)
+        assets_dates_unix[1].append(asset.date.timestamp()*1000)
+
+    assets_dates_unix[1][0] = datetime(2021,12,15,0,0).timestamp()*1000 # for testing
+
+    for el in data['prices']: #el[0] - timestamp el[1] - price
+        balance[0].append(el[0])
+        balance[1].append(0)
+        for i in range(len(assets_dates_unix[1])):
+            if (int(assets_dates_unix[1][i]) <= int(el[0])):
+                balance[1][-1] += float(assets_dates_unix[0][i].amount) * float(el[1])
+
+    for i in range(len(balance[0])):
+        print(balance[0][i], balance[1][i])
+
+    return balance #[[x], [y]] - x - timestamps, y - balace
+
+def add_data(user_asset, data):
+    pass
+
+def coin_request_30d(coin):
+    url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=60'
     response = requests.get(url)
     status_code = response.status_code
 
@@ -56,7 +93,7 @@ def get_ml_data(coin):
     X_train[temp] = 0
     temp = np.isnan(Y_train)
     Y_train[temp] = 0
-    print('good')
+    #print('good')
     return dataset['prices']
     
 
@@ -83,7 +120,7 @@ def get_plot(x):
     graph = get_graph()
     return graph
 
-#a few things to be done here below
+
 def add_data(user_assets, data):
     NData = []
     for asset in user_assets.all():
@@ -101,3 +138,12 @@ def add_data(user_assets, data):
                 dictionary['profit'] = float(str(round(dictionary['price'] - dictionary['purchase_price'],4)))
                 NData.append(dictionary)
     return NData
+
+def get_balance_plot(balance):
+    x = balance[0]
+    y = balance[1]
+
+    plt.plot(x, y)
+    graph = get_graph
+    return graph
+

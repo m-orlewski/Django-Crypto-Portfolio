@@ -4,6 +4,10 @@
 
 <button class="add-button" onclick="show_window()" id="test1">Choose and Buy Currency</button>
 
+{% if plot %}
+    <img src="data:image/png;base64, {{plot|safe}}">
+{% endif %}
+
 <div id="window-app" class = "modal">
     <div class = "modal-content">
         <input type="text" id="myInput" onkeyup="search()" placeholder="Search for Crypto..." style = "margin-bottom: 20px;"></input>

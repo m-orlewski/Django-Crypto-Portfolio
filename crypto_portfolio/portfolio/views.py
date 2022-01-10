@@ -24,19 +24,24 @@ def home(request):
 
 def profile(request):
     current_user = request.user
-    
     try:
         current_portfolio = Portfolio.objects.get(user=current_user)
         user_assets = Asset.objects.filter(portfolio=current_portfolio)
     except:
         current_portfolio = Portfolio.objects.create(user=current_user)
         user_assets = {}
-
-    
     data = pu.make_request()
-    
+    total = pu.total_balance(user_assets.filter(coin_id='bitcoin'), 'bitcoin')
 
-    
+    plot = pu.get_balance_plot(total)
+
+    #print(user_assets.values('coin_id'))
+    for asset in user_assets.all():
+        for elem in data:
+            if asset.coin_id == elem['id']:
+                pass
+                #print(asset.coin_id)
+
 
     if request.method == "POST":
         form = AssetForm(request.POST)
@@ -54,9 +59,15 @@ def profile(request):
                           )
             asset.save()
             user_assets = Asset.objects.filter(portfolio=current_portfolio)
+
             return HttpResponseRedirect('../../portfolio/profile') 
     user_data = pu.add_data(user_assets, data)
-    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data})
+    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data, 'plot': plot})
+
+     #       return HttpResponseRedirect('../../portfolio/profile') #why does it work?!
+#
+   # return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, })
+#>>>>>>> 5018676d1b0c61d968dde09a22c2c94a8981e453
 
 def form(request):
     if request.GET:
