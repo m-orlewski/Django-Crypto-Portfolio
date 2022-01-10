@@ -23,6 +23,15 @@ def make_request():
     return response.json()
 
 #Calc functions
+def coin_request_daily(coin):
+    url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=1'
+    response = requests.get(url)
+    status_code = response.status_code
+
+
+    if status_code != 200:
+        raise Exception(f"CoinGecko API call failed with status code: {status_code}")
+    return response.json()
 
 def total_balance(assets, coin):
     balance = [[], []]
@@ -111,6 +120,25 @@ def get_plot(x):
     graph = get_graph()
     return graph
 
+
+def add_data(user_assets, data):
+    NData = []
+    for asset in user_assets.all():
+        for elem in data:
+            if asset.coin_id == elem['id']:
+                history = coin_request_daily(elem['id'])
+                dictionary = {}
+                dictionary['id'] = asset.coin_id
+                dictionary['name'] = asset.name
+                dictionary['amount'] = asset.amount
+                dictionary['purchase_price'] = asset.price
+                dictionary['img'] = elem['image']
+                dictionary['price'] = float(str(round(elem['current_price'],4)))
+                dictionary['24h'] = float(str(round((history['prices'][0][1] - dictionary['price'])*100/dictionary['purchase_price'],4)))
+                dictionary['profit'] = float(str(round(dictionary['price'] - dictionary['purchase_price'],4)))
+                NData.append(dictionary)
+    return NData
+
 def get_balance_plot(balance):
     x = balance[0]
     y = balance[1]
@@ -118,3 +146,4 @@ def get_balance_plot(balance):
     plt.plot(x, y)
     graph = get_graph
     return graph
+

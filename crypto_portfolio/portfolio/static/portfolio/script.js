@@ -69,10 +69,13 @@ function sendId(id)
 
 function show(){
     var list = document.getElementById("user_port");
+    var butt = document.getElementById("show_button");
     if(list.style.display == "block"){
         list.style.display = "none";
+        butt.innerText = "Show Portfolio";
     }
     else{
         list.style.display = "block";
+        butt.innerText = "Hide Portfolio";
     }
 }

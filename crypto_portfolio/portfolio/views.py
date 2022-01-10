@@ -24,15 +24,12 @@ def home(request):
 
 def profile(request):
     current_user = request.user
-    
     try:
         current_portfolio = Portfolio.objects.get(user=current_user)
         user_assets = Asset.objects.filter(portfolio=current_portfolio)
     except:
         current_portfolio = Portfolio.objects.create(user=current_user)
         user_assets = {}
-
-    
     data = pu.make_request()
     total = pu.total_balance(user_assets.filter(coin_id='bitcoin'), 'bitcoin')
 
@@ -49,17 +46,28 @@ def profile(request):
     if request.method == "POST":
         form = AssetForm(request.POST)
         if form.is_valid():
+            #removed price from form
+            for elem in data:
+                if elem['id'] == form.cleaned_data['id']:
+                    _price = elem['current_price']
+
             asset = Asset(amount = form.cleaned_data['amount'],
-                          price = form.cleaned_data['price'], 
+                          price = _price, 
                           portfolio = current_portfolio,
                           coin_id = form.cleaned_data['id'],
                           name = form.cleaned_data['id'].capitalize()
                           )
             asset.save()
             user_assets = Asset.objects.filter(portfolio=current_portfolio)
-            return HttpResponseRedirect('../../portfolio/profile') #why does it work?!
 
-    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'plot': plot})
+            return HttpResponseRedirect('../../portfolio/profile') 
+    user_data = pu.add_data(user_assets, data)
+    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data, 'plot': plot})
+
+     #       return HttpResponseRedirect('../../portfolio/profile') #why does it work?!
+#
+   # return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, })
+#>>>>>>> 5018676d1b0c61d968dde09a22c2c94a8981e453
 
 def form(request):
     if request.GET:
