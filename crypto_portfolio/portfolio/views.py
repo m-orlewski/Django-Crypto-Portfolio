@@ -34,7 +34,7 @@ def profile(request):
 
     
     data = pu.make_request()
-    user_data = pu.add_data(user_assets, data)
+    
 
     
 
@@ -55,7 +55,7 @@ def profile(request):
             asset.save()
             user_assets = Asset.objects.filter(portfolio=current_portfolio)
             return HttpResponseRedirect('../../portfolio/profile') 
-
+    user_data = pu.add_data(user_assets, data)
     return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data})
 
 def form(request):

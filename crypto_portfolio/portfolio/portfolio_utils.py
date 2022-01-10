@@ -23,7 +23,7 @@ def make_request():
 
 #Calc functions
 def coin_request_daily(coin):
-    url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=1&interval=daily'
+    url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=1'
     response = requests.get(url)
     status_code = response.status_code
 
@@ -94,10 +94,10 @@ def add_data(user_assets, data):
                 dictionary['id'] = asset.coin_id
                 dictionary['name'] = asset.name
                 dictionary['amount'] = asset.amount
+                dictionary['purchase_price'] = asset.price
                 dictionary['img'] = elem['image']
                 dictionary['price'] = float(str(round(elem['current_price'],4)))
-                dictionary['price_at_1am'] = float(str(round(history['prices'][0][1],4)))
-                dictionary['profit'] = float(str(round(history['prices'][1][1] - history['prices'][0][1],4)))
-                dictionary['profitP'] = float(str(round(((history['prices'][1][1] - history['prices'][0][1])/history['prices'][0][1]) * 100,4)))
+                dictionary['24h'] = float(str(round((history['prices'][0][1] - dictionary['price'])*100/dictionary['purchase_price'],4)))
+                dictionary['profit'] = float(str(round(dictionary['price'] - dictionary['purchase_price'],4)))
                 NData.append(dictionary)
     return NData

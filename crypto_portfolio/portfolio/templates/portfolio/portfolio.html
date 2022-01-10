@@ -37,42 +37,46 @@
 
 
 
-<button class="add-button" onclick="show()">Show portfolio</button>
-<div id="user_port" style = "display: none">
-    <table class="table table-striped">
-        <thead>
-        <tr> 
-            <th scope="col">Logo</th>                              
-            <th scope="col">Name</th>                
-            <th scope="col">Amount</th>                
-            <th scope="col">Current Price</th>
-            <th scope="col">Price At 1 AM</th>
-            <th scope="col">Profit</th>
-            <th scope="col">Profit %</th>                                                   
-        </tr>
-        </thead>
-    </table>
-    <div class="panel-body table-responsive" style="padding: 0px;">
-    <table class="table table-striped">
-        <tbody>               
-            {% if user_data %}           
-                {% for data in user_data %}
-                    <tr>
-                        <td><img src="{{data.img}}" height="50px" alt="Coin Logo"></td> 
-                        <td class="align-middle">{{data.name}}</td>           
-                        <td class="align-middle">{{data.amount}}</td>
-                        <td class="align-middle">{{data.price}} USD</td>
-                        <td class="align-middle">{{data.price_at_1am}} USD</td>
-                        <td class="align-middle">{{data.profit}} USD</td>
-                        <td class="align-middle">{{data.profitP}}%</td>
-                    </tr>           
-                {% endfor %}            
-            {% else %}            
-                <p>Your portfolio is empty</p>       
-            {% endif %}       
-        </tbody>
-    </table>
-    </div>
+<button class="add-button" id = "show_button" onclick="show()" >Hide portfolio</button>
+<div class = "containerr" id="user_port" style = "display: block" >
+    <div class = "table_responsive">
+        <div class = "table_responsive_head"> 
+            <table class = "inner_table_responsive">
+                <thead>
+                    <tr class = "TRTR">
+                        <th class = "TRTH">Logo</th>                              
+                        <th class = "TRTH">Name</th>                
+                        <th class = "TRTH">Amount</th>
+                        <th class = "TRTH">Purchase Price</th>                 
+                        <th class = "TRTH">Current Price</th>
+                        <th class = "TRTH">24h</th>
+                        <th class = "TRTH">Profit</th>
+                    </tr>
+                </thead>
+            </table>
+        </div> <!--table_responsive_head-->
+        <div class = "table_responsive_body">
+            <table class = "inner_table_responsive">
+                <tbody>
+                    {% if user_data %}           
+                        {% for data in user_data %}
+                            <tr class = "TRTR">
+                                <td class = "TRTD"><img src="{{data.img}}" height="50px" alt="Coin Logo"></td> 
+                                <td class = "TRTD">{{data.name}}</td>           
+                                <td class = "TRTD">{{data.amount}}</td>
+                                <td class = "TRTD">{{data.purchase_price}} USD</td>
+                                <td class = "TRTD">{{data.price}} USD</td>
+                                <td class = "TRTD">{{data.24h}} %</td>
+                                <td class = "TRTD">{{data.profit}} USD</td>
+                            </tr>           
+                        {% endfor %}            
+                    {% else %}            
+                        <p>Your portfolio is empty</p>       
+                    {% endif %}
+                </tbody>
+            </table>
+        </div> <!--table_responsive_body-->
+    </div> <!--table_responsive-->
 </div>   
 
     <h1>List of all available coins</h1>
