@@ -7,11 +7,11 @@
 
 <div id="window-app2" class = "modal">
     <div class = "modal-content">
-        <input type="text" id="myInput" onkeyup="search()" placeholder="Search for Crypto..." style = "margin-bottom: 20px;"></input>
+        <input type="text" id="myInput2" onkeyup="search()" placeholder="Search for Crypto..." style = "margin-bottom: 20px;"></input>
         <div class="panel-body table-responsive">
             {% if user_data %}            
                 {% for asset in user_data %}
-                    <button class = "collapsible" id="{{asset.id}}" style = "width: 100%; margin-bottom: 10px;">
+                    <button class = "collapsible2" id="{{asset.id}}" style = "width: 100%; margin-bottom: 10px;">
                         <div class = "content">     
                             <img src="{{asset.img}}" height="70px" alt="Coin Logo">
                             <div class = "p">{{asset.name}}</div>
