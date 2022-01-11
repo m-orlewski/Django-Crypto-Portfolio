@@ -45,11 +45,11 @@ def total_balance(assets, coin):
     assets_dates_unix[1][0] = datetime(2021,12,15,0,0).timestamp()*1000.0 # for testing
 
     for el in data['prices']: #el[0] - timestamp el[1] - price
-        balance[0].append(1)#float(el[0]))
+        balance[0].append(float(el[0]))
         balance[1].append(0.)
         for i in range(len(assets_dates_unix[1])):
             if (assets_dates_unix[1][i] <= float(el[0])):
-                balance[1][-1] += 1#float(assets_dates_unix[0][i].amount) * float(el[1])
+                balance[1][-1] += float(assets_dates_unix[0][i].amount) * float(el[1])
 
     #return [[], []]
     return balance #[[x], [y]] - x - timestamps, y - balace
@@ -119,6 +119,8 @@ def get_plot(x, type=0):
     plt.grid()
     plt.tight_layout()
     graph = get_graph()
+    plt.cla()
+    plt.clf()
     return graph
 
 

@@ -31,7 +31,7 @@ def profile(request):
         current_portfolio = Portfolio.objects.create(user=current_user)
         user_assets = {}
     data = pu.make_request()
-    total = pu.total_balance(user_assets.filter(coin_id='bitcoin'), 'bitcoin')
+    total = pu.total_balance(user_assets.filter(coin_id='tether'), 'tether')
 
     plot = pu.get_balance_plot(total)
 
