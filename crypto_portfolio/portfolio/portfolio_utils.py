@@ -42,8 +42,6 @@ def total_balance(assets, coin):
         assets_dates_unix[0].append(asset)
         assets_dates_unix[1].append(asset.date.timestamp()*1000.0)
 
-    assets_dates_unix[1][0] = datetime(2021,12,15,0,0).timestamp()*1000.0 # for testing
-
     for el in data['prices']: #el[0] - timestamp el[1] - price
         balance[0].append(float(el[0]))
         balance[1].append(0.)
@@ -51,11 +49,10 @@ def total_balance(assets, coin):
             if (assets_dates_unix[1][i] <= float(el[0])):
                 balance[1][-1] += float(assets_dates_unix[0][i].amount) * float(el[1])
 
-    #return [[], []]
     return balance #[[x], [y]] - x - timestamps, y - balace
 
 def coin_request_30d(coin):
-    url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=60'
+    url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=1'
     response = requests.get(url)
     status_code = response.status_code
 
@@ -137,16 +134,25 @@ def add_data(user_assets, data):
                 dictionary['purchase_price'] = asset.price
                 dictionary['img'] = elem['image']
                 dictionary['price'] = float(str(round(elem['current_price'],4)))
-                dictionary['24h'] = float(str(round((history['prices'][0][1] - dictionary['price'])*100/dictionary['purchase_price'],4)))
+                dictionary['24h'] = float(str(round((history['prices'][0][1] - dictionary['price'])*100/dictionary['price'],4)))
                 dictionary['profit'] = float(str(round(dictionary['price'] - dictionary['purchase_price'],4)))
                 NData.append(dictionary)
     return NData
 
-def get_balance_plot(balance):
-    x = balance[0]
+def get_balance_plot(balance, name):
+    x = [datetime.fromtimestamp(int(ts/1000)).strftime('%Y-%m-%d %H:%M:%S') for ts in balance[0]]
     y = balance[1]
-
+    plt.switch_backend('AGG')
+    plt.figure(figsize=(10,6))
     plt.plot(x, y)
+    plt.title(f'Current balance ({name})')
+    plt.xlabel('Date')
+    plt.ylabel('Price USD($)')
+    plt.grid()
+    plt.tight_layout()
+    plt.xticks(x[::70])
     graph = get_graph()
+    plt.cla()
+    plt.clf()
     return graph
 
