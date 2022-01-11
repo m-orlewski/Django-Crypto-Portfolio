@@ -1,4 +1,4 @@
-function show_window()
+function show_window(type)
 {
     var list = document.getElementById('window-app');
     var buymenu = document.getElementById('window-app-buy');
@@ -18,7 +18,11 @@ function show_window()
         coll[i].addEventListener("click", function()
         {
             list.style.display = "none";
-            sendId(this.id);
+            if (type) {
+                select_coin(this.id);
+            } else {
+                sendId(this.id);
+            }
             //buymenu.style.display = "block";
         });
     }
@@ -92,6 +96,15 @@ function sendId(id)
     params.push("id=" + id);
     console.log(id);
     location.href = "http://localhost:8000/portfolio/profile/form?" + params.join("&");
+}
+
+
+function select_coin(id)
+{
+    var params = [];
+    params.push("id=" + id);
+    console.log(id);
+    location.href = "http://localhost:8000/portfolio?" + params.join("&");
 }
 
 function showBalance(id)
