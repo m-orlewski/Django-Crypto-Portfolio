@@ -45,19 +45,14 @@ def total_balance(assets, coin):
     assets_dates_unix[1][0] = datetime(2021,12,15,0,0).timestamp()*1000.0 # for testing
 
     for el in data['prices']: #el[0] - timestamp el[1] - price
-        balance[0].append(el[0])
-        balance[1].append(0)
+        balance[0].append(1)#float(el[0]))
+        balance[1].append(0.)
         for i in range(len(assets_dates_unix[1])):
             if (assets_dates_unix[1][i] <= float(el[0])):
-                balance[1][-1] += float(assets_dates_unix[0][i].amount) * float(el[1])
+                balance[1][-1] += 1#float(assets_dates_unix[0][i].amount) * float(el[1])
 
-    for i in range(len(balance[0])):
-        print(balance[0][i], balance[1][i])
-
+    #return [[], []]
     return balance #[[x], [y]] - x - timestamps, y - balace
-
-def add_data(user_asset, data):
-    pass
 
 def coin_request_30d(coin):
     url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=60'
@@ -99,7 +94,7 @@ def get_ml_data(coin):
     return pd.to_datetime(dataset.Date, format='%Y-%m-%d').tail(2 * days).values, dataset.prices.tail(days), y_lrp
 
 def get_graph():
-    #logging.warning("get_graph")
+    logging.warning("get_graph")
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
@@ -107,7 +102,6 @@ def get_graph():
     graph = base64.b64encode(image_png)
     graph = graph.decode('utf-8')
     buffer.close()
-    plt.savefig('test.png')
     return graph
 
 def get_plot(x, type=0):
@@ -151,6 +145,6 @@ def get_balance_plot(balance):
     y = balance[1]
 
     plt.plot(x, y)
-    graph = get_graph
+    graph = get_graph()
     return graph
 

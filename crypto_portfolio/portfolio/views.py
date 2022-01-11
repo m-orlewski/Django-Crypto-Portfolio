@@ -63,7 +63,6 @@ def profile(request):
             return HttpResponseRedirect('../../portfolio/profile') 
     user_data = pu.add_data(user_assets, data)
     return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data, 'plot': plot})
-
      #       return HttpResponseRedirect('../../portfolio/profile') #why does it work?!
 #
    # return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, })
