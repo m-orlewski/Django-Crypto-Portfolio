@@ -36,14 +36,10 @@ def profile(request):
     if request.method == "POST":
         form = AssetForm(request.POST)
         if form.is_valid():
-            #removed price from form
-            for elem in data:
-                if elem['id'] == form.cleaned_data['id']:
-                    _price = elem['current_price']
-
             asset = Asset(amount = form.cleaned_data['amount'],
-                          price = _price, 
+                          price = form.cleaned_data['price'], 
                           portfolio = current_portfolio,
+                          date = form.cleaned_data['date'],
                           coin_id = form.cleaned_data['id'],
                           name = form.cleaned_data['id'].capitalize()
                           )

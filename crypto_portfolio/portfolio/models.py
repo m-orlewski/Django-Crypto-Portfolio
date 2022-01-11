@@ -11,11 +11,9 @@ class Asset(models.Model):
     coin_id = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
     amount = models.FloatField()
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField()
     price = models.FloatField()
     portfolio = models.ForeignKey("Portfolio", on_delete=models.CASCADE)
     
     def __str__(self):
         return f'{self.id}({self.name}): Amount: {self.amount}, Price: {self.price}, Date: {self.date}'
-
-#propably add some fields

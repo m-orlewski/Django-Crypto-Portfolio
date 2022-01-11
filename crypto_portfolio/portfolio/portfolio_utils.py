@@ -136,7 +136,7 @@ def add_data(user_assets, data):
                 dictionary['purchase_price'] = asset.price
                 dictionary['img'] = elem['image']
                 dictionary['price'] = float(str(round(elem['current_price'],4)))
-                dictionary['24h'] = float(str(round((history['prices'][0][1] - dictionary['price'])*100/dictionary['purchase_price'],4)))
+                dictionary['24h'] = float(str(round((history['prices'][0][1] - dictionary['price'])*100/dictionary['price'],4)))
                 dictionary['profit'] = float(str(round(dictionary['price'] - dictionary['purchase_price'],4)))
                 NData.append(dictionary)
     return NData
