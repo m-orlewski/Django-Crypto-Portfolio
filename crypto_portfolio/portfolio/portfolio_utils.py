@@ -51,11 +51,10 @@ def total_balance(assets, coin):
             if (assets_dates_unix[1][i] <= float(el[0])):
                 balance[1][-1] += float(assets_dates_unix[0][i].amount) * float(el[1])
 
-    #return [[], []]
     return balance #[[x], [y]] - x - timestamps, y - balace
 
 def coin_request_30d(coin):
-    url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=60'
+    url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=7'
     response = requests.get(url)
     status_code = response.status_code
 
@@ -148,5 +147,7 @@ def get_balance_plot(balance):
 
     plt.plot(x, y)
     graph = get_graph()
+    plt.cla()
+    plt.clf()
     return graph
 

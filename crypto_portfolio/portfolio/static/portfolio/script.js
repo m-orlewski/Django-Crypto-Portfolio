@@ -22,6 +22,7 @@ function show_window()
             //buymenu.style.display = "block";
         });
     }
+
     /*
     window.addEventListener("click", function(event)
     {
@@ -32,6 +33,32 @@ function show_window()
         }
     });
     */
+}
+
+function show_window2()
+{
+    var list = document.getElementById('window-app2');
+    list.style.display="block";
+
+    window.addEventListener("click", function(event)
+    {
+        if(event.target == list)
+        {
+            list.style.display = "none";
+        } 
+    });
+
+    var coll = document.getElementsByClassName("collapsible");
+    for (var i = 0; i < coll.length; i++)
+    {
+        coll[i].addEventListener("click", function()
+        {
+            console.log('eee')
+            list.style.display = "none";
+            showBalance(this.id);
+            
+        });
+    }
 }
 
 function search()
@@ -65,6 +92,14 @@ function sendId(id)
     params.push("id=" + id);
     console.log(id);
     location.href = "http://localhost:8000/portfolio/profile/form?" + params.join("&");
+}
+
+function showBalance(id)
+{
+    var params = [];
+    params.push("balance=" + id);
+    console.log(id);
+    location.href = "http://localhost:8000/portfolio/profile?" + params.join("&");
 }
 
 function show(){
