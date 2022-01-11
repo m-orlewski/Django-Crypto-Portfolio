@@ -40,15 +40,15 @@ def total_balance(assets, coin):
     assets_dates_unix = [[], []]
     for asset in assets:
         assets_dates_unix[0].append(asset)
-        assets_dates_unix[1].append(asset.date.timestamp()*1000)
+        assets_dates_unix[1].append(asset.date.timestamp()*1000.0)
 
-    assets_dates_unix[1][0] = datetime(2021,12,15,0,0).timestamp()*1000 # for testing
+    assets_dates_unix[1][0] = datetime(2021,12,15,0,0).timestamp()*1000.0 # for testing
 
     for el in data['prices']: #el[0] - timestamp el[1] - price
         balance[0].append(el[0])
         balance[1].append(0)
         for i in range(len(assets_dates_unix[1])):
-            if (int(assets_dates_unix[1][i]) <= int(el[0])):
+            if (assets_dates_unix[1][i] <= float(el[0])):
                 balance[1][-1] += float(assets_dates_unix[0][i].amount) * float(el[1])
 
     for i in range(len(balance[0])):
