@@ -60,8 +60,7 @@ def profile(request):
 
     if balance_coin_id != '':
         total = pu.total_balance(user_assets.filter(coin_id=balance_coin_id), balance_coin_id)
-        plot = pu.get_balance_plot(total)
-        print('eeeeeeeeeeeeeeeeeeeeeeeeee')
+        plot = pu.get_balance_plot(total, balance_coin_id)
         return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data, 'plot': plot})
     else:
         return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data})
