@@ -1,15 +1,34 @@
 {% extends "portfolio/base.html" %}
 
-{% block content %}  
-    <h1>HOME PAGE! </h1>
+{% block content %}
+    <button class="btn btn-primary btn-lg add-button" onclick="show_window(1)">Predict a Cryptocurrency price</button>
 
-    {% if assets %}            
-    {% for asset in assets %}
-        <p>{{asset.name}} {{asset.amount}} {{asset.price}}</p>
-        <img src="data:image/png;base64, {{asset.graph|safe}}">
-    {% endfor %}            
-    {% else %}            
-        <p>Your portfolio is empty</p>    
-        <button class="add-button" onclick="">Add new asset</button>   
-{% endif %} 
+    {% if graph %}
+        <div class="container">
+            <h3>{{name}} <small>- last week price and a week prediction</small></h3>
+            <img src="data:image/png;base64, {{graph|safe}}">
+        </div>
+    {% endif %} 
+
+    <div id="window-app" class = "modal">
+        <div class = "modal-content">
+            <input type="text" id="myInput" onkeyup="search()" placeholder="Search for Crypto..." style = "margin-bottom: 20px;"></input>
+            <div class="panel-body table-responsive">
+                {% if api_data %}            
+                    {% for coin in api_data %}
+                        <button class = "collapsible" id="{{coin.id}}" style = "width: 100%; margin-bottom: 10px;">
+                            <div class = "content">     
+                                <img src="{{coin.image}}" height="70px" alt="Coin Logo">
+                                <div class = "p">{{coin.name}}</div>
+                                <div style="display: none;" class = "price">{{coin.current_price}} USD</div> 
+                            </div> 
+                        </button>                  
+                    {% endfor %}            
+                {% else %}            
+                    <p>Nothing Here to show</p>            
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
 {% endblock content %}
