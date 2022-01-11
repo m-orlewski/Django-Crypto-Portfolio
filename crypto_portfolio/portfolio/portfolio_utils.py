@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import requests
 import pandas as pd
 import numpy as np
-import json
+from datetime import datetime
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import logging
@@ -80,22 +80,23 @@ def coin_request(coin):
     return response.json()
 
 def get_ml_data(coin):
-    #logging.warning("get_ml_data")
     dataset = pd.DataFrame.from_dict(coin_request(coin))
+    # dataset.drop(dataset.tail(1).index,inplace=True) # Potential problem - same date, 2 values
+    dataset = dataset.drop(columns=['market_caps', 'total_volumes'])
+    days = 7
     for id in dataset.index:
-        for col in ['prices', 'market_caps', 'total_volumes']:
-            dataset.loc[id, col] = dataset.loc[id, col][1]
-    dataset = dataset.astype(np.float64, errors = 'raise')
-    X = dataset.drop('prices', axis = 1)
-    y = dataset['prices']
-    X_train, X_validation, Y_train, Y_validation = train_test_split(X, y, test_size=0.20, random_state=0)
-    temp = np.isnan(X_train)
-    X_train[temp] = 0
-    temp = np.isnan(Y_train)
-    Y_train[temp] = 0
-    #print('good')
-    return dataset['prices']
-    
+        dataset.loc[id, 'Date'] = datetime.fromtimestamp(int(dataset.loc[id, 'prices'][0]/1000 + days * 24 * 60 * 60))
+        dataset.loc[id, 'prices'] = dataset.loc[id, 'prices'][1]
+    dataset['Prediction'] = dataset[['prices']].shift(-days)
+    X = np.array(dataset.drop(columns=['Prediction', 'Date'], axis = 1))[:-days]
+    y = np.array(dataset['Prediction'])[:-days]
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.01)
+    x_pred = dataset.drop(columns=['Prediction', 'Date'], axis = 1)[:-days]
+    x_pred = x_pred.tail(days)
+    x_pred = np.array(x_pred)
+    lr = LinearRegression().fit(x_train,y_train)
+    y_lrp = lr.predict(x_pred)
+    return pd.to_datetime(dataset.Date, format='%Y-%m-%d').tail(2 * days).values, dataset.prices.tail(days), y_lrp
 
 def get_graph():
     #logging.warning("get_graph")
@@ -109,13 +110,19 @@ def get_graph():
     plt.savefig('test.png')
     return graph
 
-def get_plot(x):
+def get_plot(x, type=0):
     #logging.warning("get_plot")
     plt.switch_backend('AGG')
     plt.figure(figsize=(10,5))
-    plt.xlabel('Days')
+    plt.xlabel('Date')
     plt.ylabel(f'Price USD($)')
-    plt.plot(x)
+    if type != 0:
+        plt.plot((x[0])[:len(x[0])//2], x[1], label='Previous prices')
+        plt.plot((x[0])[len(x[0])//2:], x[2], label='Predicted prices')
+        plt.legend()
+    else:
+        plt.plot(x)
+    plt.grid()
     plt.tight_layout()
     graph = get_graph()
     return graph

@@ -12,13 +12,13 @@ def home(request):
         current_portfolio = Portfolio.objects.get(user=current_user)
         user_assets = Asset.objects.filter(portfolio=current_portfolio)
         for asset in user_assets:
-                asset.graph = pu.get_plot(pu.get_ml_data(asset.coin_id))
+                asset.graph = pu.get_plot(pu.get_ml_data(asset.coin_id), 1)
     except:
         current_portfolio = Portfolio.objects.create(user=current_user)
         user_assets = {}
 
     for asset in user_assets:
-        asset.graph = pu.get_plot(pu.get_ml_data(asset.coin_id))
+        asset.graph = pu.get_plot(pu.get_ml_data(asset.coin_id), 1)
     
     return render(request, 'portfolio/home.html', context={ 'assets': user_assets})
 
