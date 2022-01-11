@@ -30,18 +30,8 @@ def profile(request):
     except:
         current_portfolio = Portfolio.objects.create(user=current_user)
         user_assets = {}
+
     data = pu.make_request()
-    total = pu.total_balance(user_assets.filter(coin_id='tether'), 'tether')
-
-    plot = pu.get_balance_plot(total)
-
-    #print(user_assets.values('coin_id'))
-    for asset in user_assets.all():
-        for elem in data:
-            if asset.coin_id == elem['id']:
-                pass
-                #print(asset.coin_id)
-
 
     if request.method == "POST":
         form = AssetForm(request.POST)
@@ -59,14 +49,29 @@ def profile(request):
                           )
             asset.save()
             user_assets = Asset.objects.filter(portfolio=current_portfolio)
+            return HttpResponseRedirect('../../portfolio/profile')
 
-            return HttpResponseRedirect('../../portfolio/profile') 
     user_data = pu.add_data(user_assets, data)
-    return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data, 'plot': plot})
-     #       return HttpResponseRedirect('../../portfolio/profile') #why does it work?!
-#
-   # return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, })
-#>>>>>>> 5018676d1b0c61d968dde09a22c2c94a8981e453
+
+    balance_coin_id = ''
+    if request.GET:
+        balance_coin_id = request.GET.get('balance')
+    else:
+        for asset in user_assets:
+            balance_coin_id = asset.coin_id      
+
+    print(balance_coin_id)
+
+    if balance_coin_id != '':
+        total = pu.total_balance(user_assets.filter(coin_id=balance_coin_id), balance_coin_id)
+        plot = pu.get_balance_plot(total)
+        print('eeeeeeeeeeeeeeeeeeeeeeeeee')
+        return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data, 'plot': plot})
+    else:
+        return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data})
+
+    
+    
 
 def form(request):
     if request.GET:
