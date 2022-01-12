@@ -84,8 +84,8 @@ def coin_request(coin):
     return response.json()
 
 def get_ml_data(coin):
+    '''Cryptocurrency 7-days price prediction using Linear Regression'''
     dataset = pd.DataFrame.from_dict(coin_request(coin))
-    # dataset.drop(dataset.tail(1).index,inplace=True) # Potential problem - same date, 2 values
     dataset = dataset.drop(columns=['market_caps', 'total_volumes'])
     days = 7
     for id in dataset.index:
@@ -94,7 +94,7 @@ def get_ml_data(coin):
     dataset['Prediction'] = dataset[['prices']].shift(-days)
     X = np.array(dataset.drop(columns=['Prediction', 'Date'], axis = 1))[:-days]
     y = np.array(dataset['Prediction'])[:-days]
-    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.01)
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.01) # used for a proper formatting
     x_pred = dataset.drop(columns=['Prediction', 'Date'], axis = 1)[:-days]
     x_pred = x_pred.tail(days)
     x_pred = np.array(x_pred)

@@ -1,7 +1,7 @@
+// Function that manages a pop-up window for a Crypto buying form.
 function show_window()
 {
     var list = document.getElementById('window-app');
-    var buymenu = document.getElementById('window-app-buy');
     list.style.display="block";
 
     window.addEventListener("click", function(event)
@@ -23,6 +23,7 @@ function show_window()
     }
 }
 
+// Function that manages a pop-up window for a Crypto balance graph.
 function show_window2()
 {
     var list = document.getElementById('window-app2');
@@ -48,9 +49,9 @@ function show_window2()
     }
 }
 
+// Function that manages a pop-up window for a Crypto price prediction.
 function show_window3()
 {
-    console.log('abc');
     var list = document.getElementById('window-app3');
     list.style.display="block";
 
@@ -73,6 +74,7 @@ function show_window3()
     }
 }
 
+// Function that gets a list of Cryptocurrencies to choose from.
 function search()
 {
     var input, elements, txtValue, filter;
@@ -91,13 +93,7 @@ function search()
     }
 }
 
-
-function calculate()
-{
-    var val = document.getElementById('inputAmount');
-    document.getElementById('amount').innerHTML = val.value;
-}
-
+// Function that redirects to Crypto buing form.
 function sendId(id)
 {
     var params = [];
@@ -106,7 +102,7 @@ function sendId(id)
     location.href = "http://localhost:8000/portfolio/profile/form?" + params.join("&");
 }
 
-
+// Function that selects a Crypto on homepage to show it's predicted value.
 function select_coin(id)
 {
     var params = [];
@@ -115,23 +111,11 @@ function select_coin(id)
     location.href = "http://localhost:8000/portfolio?" + params.join("&");
 }
 
+// Function that selects a Crypto on profile to show current price of it.
 function showBalance(id)
 {
     var params = [];
     params.push("balance=" + id);
     console.log(id);
     location.href = "http://localhost:8000/portfolio/profile?" + params.join("&");
-}
-
-function show(){
-    var list = document.getElementById("user_port");
-    var butt = document.getElementById("show_button");
-    if(list.style.display == "block"){
-        list.style.display = "none";
-        butt.innerText = "Show Portfolio";
-    }
-    else{
-        list.style.display = "block";
-        butt.innerText = "Hide Portfolio";
-    }
 }
