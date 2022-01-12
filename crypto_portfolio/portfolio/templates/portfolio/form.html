@@ -3,16 +3,20 @@
 {% block content %}  
 <form action="/portfolio/profile/" method="post">
     {% csrf_token %}
-    <div class = "content-section">
+    <div class = "form-holder">
         <fieldset class = "form-group">
-            <legend class = "border-bottom mb-4">
-               Buy Currency
+            <legend class = "border-bottom mb-4" style = "text-align: center;">
+                <img src="{{dat.img}}" height="40px" alt="Coin Logo" style = "float: left;">
+                Add {{dat.name}}
             </legend>
-            {{ form.as_p}}
+                <div style = "margin-left: 10px;">Amount:</div>{{form.amount}}
+                <div style = "margin-left: 10px;">Price:</div>{{form.price}}
+                <div style = "margin-left: 10px;">Date:</div>{{form.date}}
+                {{form.id}}
         </fieldset>
         <div class = "form-group">
-            <button class="btn btn-outline-info" type = "submit">
-                Buy!
+            <button class="btn btn-outline-info shadow" type = "submit">
+                Add!
             </button>
         </div>
     </div>
