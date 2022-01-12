@@ -19,20 +19,8 @@ function show_window()
         {
             list.style.display = "none";
             sendId(this.id);
-            //buymenu.style.display = "block";
         });
     }
-
-    /*
-    window.addEventListener("click", function(event)
-    {
-        if(event.target == buymenu)
-        {
-            list.style.display = "block";
-            buymenu.style.display = "none";
-        }
-    });
-    */
 }
 
 function show_window2()
@@ -53,10 +41,34 @@ function show_window2()
     {
         coll[i].addEventListener("click", function()
         {
-            console.log('eee')
             list.style.display = "none";
             showBalance(this.id);
             
+        });
+    }
+}
+
+function show_window3()
+{
+    console.log('abc');
+    var list = document.getElementById('window-app3');
+    list.style.display="block";
+
+    window.addEventListener("click", function(event)
+    {
+        if(event.target == list)
+        {
+            list.style.display = "none";
+        } 
+    });
+
+    var coll = document.getElementsByClassName("collapsible");
+    for (var i = 0; i < coll.length; i++)
+    {
+        coll[i].addEventListener("click", function()
+        {
+            list.style.display = "none";
+            select_coin(this.id);
         });
     }
 }
@@ -92,6 +104,15 @@ function sendId(id)
     params.push("id=" + id);
     console.log(id);
     location.href = "http://localhost:8000/portfolio/profile/form?" + params.join("&");
+}
+
+
+function select_coin(id)
+{
+    var params = [];
+    params.push("id=" + id);
+    console.log(id);
+    location.href = "http://localhost:8000/portfolio?" + params.join("&");
 }
 
 function showBalance(id)

@@ -2,15 +2,12 @@
 
 {% block content %}
 
-<button class="add-button" onclick="show_window()" id="test1">Choose and Buy Currency</button>
-<button class="add-button" onclick="show_window2()" id="test2">Show account balance</button>
-
 <div id="window-app2" class = "modal">
     <div class = "modal-content">
-        <input type="text" id="myInput" onkeyup="search()" placeholder="Search for Crypto..." style = "margin-bottom: 20px;"></input>
+        <input type="text" id="myInput2" onkeyup="search()" placeholder="Search for Crypto..." style = "margin-bottom: 20px;"></input>
         <div class="panel-body table-responsive">
-            {% if user_data %}            
-                {% for asset in user_data %}
+            {% if unique_user_data %}            
+                {% for asset in unique_user_data %}
                     <button class = "collapsible" id="{{asset.id}}" style = "width: 100%; margin-bottom: 10px;">
                         <div class = "content">     
                             <img src="{{asset.img}}" height="70px" alt="Coin Logo">
@@ -26,8 +23,15 @@
 </div>
 
 {% if plot %}
-    <img src="data:image/png;base64, {{plot|safe}}">
+    <div id="balance-plot" style="padding-top: 20px;">
+        <button class="btn btn-primary btn-lg add-button" onclick="show_window2()" id="test2">Show account balance for...</button>
+        <img style="padding-top: 20px;" src="data:image/png;base64, {{plot|safe}}">
+    </div>  
 {% endif %}
+
+<div style="text-align: center; padding-bottom: 0px; padding-top: 20px;">
+    <button class="btn btn-primary btn-lg add-button" onclick="show_window()">Add asset</button>
+</div> 
 
 <div id="window-app" class = "modal">
     <div class = "modal-content">
@@ -59,10 +63,6 @@
     </div>
 </div>
 
-
-
-
-<button class="add-button" id = "show_button" onclick="show()" >Hide portfolio</button>
 <div class = "containerr" id="user_port" style = "display: block" >
     <div class = "table_responsive">
         <div class = "table_responsive_head"> 
@@ -103,45 +103,4 @@
         </div> <!--table_responsive_body-->
     </div> <!--table_responsive-->
 </div>   
-
-    <h1>List of all available coins</h1>
-    <table class="table table-striped">
-        <thead>
-        <tr>                
-            <th scope="col">Logo</th>                
-            <th scope="col">Name</th>                
-            <th scope="col">Rank</th>                
-            <th scope="col">Market cap</th>
-            <th scope="col">Price</th>                                                
-        </tr>
-        </thead>
-    </table>
-    <div class="panel-body table-responsive" style="padding: 0px;">
-    <table class="table table-striped">
-        <thead style="display: none;">
-            <tr>                
-                <th scope="col">Logo</th>                
-                <th scope="col">Name</th>                
-                <th scope="col">Rank</th>                
-                <th scope="col">Market cap</th>
-                <th scope="col">Price</th>                                                
-            </tr>
-            </thead>
-        <tbody>               
-            {% if api_data %}            
-                {% for coin in api_data %}
-                    <tr>                
-                            <td><img src="{{coin.image}}" height="70px" alt="Coin Logo"></td>                
-                            <td class="align-middle">{{coin.name}}</td>           
-                            <td class="align-middle">{{coin.market_cap_rank}}</td>
-                            <td class="align-middle">{{coin.market_cap}}</td>                
-                            <td class="align-middle">{{coin.current_price}} USD</td>             
-                    </tr>            
-                {% endfor %}            
-            {% else %}            
-                <p>Nothing Here to show</p>            
-            {% endif %}        
-        </tbody>
-    </table>
-    </div>
 {% endblock content %}
