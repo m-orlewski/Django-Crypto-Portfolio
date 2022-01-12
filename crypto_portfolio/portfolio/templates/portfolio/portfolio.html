@@ -72,9 +72,9 @@
                         <th class = "TRTH">Logo</th>                              
                         <th class = "TRTH">Name</th>                
                         <th class = "TRTH">Amount</th>
-                        <th class = "TRTH">Purchase Price</th>                 
                         <th class = "TRTH">Current Price</th>
                         <th class = "TRTH">24h</th>
+                        <th class = "TRTH">Holdings</th>
                         <th class = "TRTH">Profit</th>
                     </tr>
                 </thead>
@@ -89,9 +89,9 @@
                                 <td class = "TRTD"><img src="{{data.img}}" height="50px" alt="Coin Logo"></td> 
                                 <td class = "TRTD">{{data.name}}</td>           
                                 <td class = "TRTD">{{data.amount}}</td>
-                                <td class = "TRTD">{{data.purchase_price}} USD</td>
                                 <td class = "TRTD">{{data.price}} USD</td>
                                 <td class = "TRTD">{{data.24h}} %</td>
+                                <td class = "TRTD">{{data.holdings}}</td>
                                 <td class = "TRTD">{{data.profit}} USD</td>
                             </tr>           
                         {% endfor %}            
