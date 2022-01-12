@@ -1,12 +1,20 @@
 {% extends "portfolio/base.html" %}
 
 {% block content %}
-    <h1>Generic Crypto-Portfolio Page!</h1>
-    <div style = "width: 50%;">
-        <p>Project started 13 Nov 2021. The work was going in full swing to create one-of-a-kind,
-            unique, amazing website for storing a portfolio of cryptocurrencies with price predictions </p>
+    <h1 style="text-align: center;">About the project</h1>
+    <div style = "width: 50%; margin: auto;">
+        <p>
+            Generic Crypto-Portfolio started as a project for Python in the enterprise course.
+            Website is written entirely using Django framework. It's supposed to help users manage
+            their cryptocurrency portfolios by providing a place to store information about their,
+            assets, display important statistics regarding their choice of currencies and plotting
+            all the data. What makes the website special is price prediction algorithm which uses
+            very sophisticated machine learning model and provides a hint at potential future changes
+            in cryptocurrencies' prices.
+        </p>
+    
+        <small class = "text-muted">
+            Authors: Michał Orlewski, Damian Raczyński, Kamil Kaproń
+        </small>
     </div>
-    <small class = "text-muted">
-        Provided by: Michał Orlewski, Damian Raczyński, Kamil Kaproń
-    </small>
 {% endblock content %}
