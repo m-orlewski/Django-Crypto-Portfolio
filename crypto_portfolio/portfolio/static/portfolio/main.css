@@ -28,9 +28,6 @@ body {
     width: 50%; 
 }
 
-
-
-
 .containerr{
     margin-top:20px;
     margin-bottom: 20px;
@@ -44,8 +41,11 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    
-    
+}
+
+#balance-plot{
+    margin: auto;
+    text-align: center;
 }
 
 .table_responsive_head{

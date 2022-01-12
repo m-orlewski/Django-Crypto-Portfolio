@@ -1,18 +1,19 @@
 {% extends "portfolio/base.html" %}
 
 {% block content %}
-    <button class="btn btn-primary btn-lg add-button" onclick="show_window(1)">Predict a Cryptocurrency price</button>
 
     {% if graph %}
-        <div class="container">
-            <h3>{{name}} <small>- last week price and a week prediction</small></h3>
-            <img src="data:image/png;base64, {{graph|safe}}">
+        <div class="container" style="padding-top: 20px;">
+            <div id="balance-plot">
+                <button class="btn btn-primary btn-lg add-button" onclick="show_window3()">Choose Crypto To Predict</button>
+                <img style="padding-top: 20px;" src="data:image/png;base64, {{graph|safe}}">
+            </div>
         </div>
     {% endif %} 
 
-    <div id="window-app" class = "modal">
+    <div id="window-app3" class = "modal">
         <div class = "modal-content">
-            <input type="text" id="myInput" onkeyup="search()" placeholder="Search for Crypto..." style = "margin-bottom: 20px;"></input>
+            <input type="text" id="myInput3" onkeyup="search()" placeholder="Search for Crypto..." style = "margin-bottom: 20px;"></input>
             <div class="panel-body table-responsive">
                 {% if api_data %}            
                     {% for coin in api_data %}

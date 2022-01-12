@@ -91,7 +91,6 @@ def get_ml_data(coin):
     return pd.to_datetime(dataset.Date, format='%Y-%m-%d').tail(2 * days).values, dataset.prices.tail(days), y_lrp
 
 def get_graph():
-    logging.warning("get_graph")
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
@@ -101,10 +100,10 @@ def get_graph():
     buffer.close()
     return graph
 
-def get_plot(x, type=0):
-    #logging.warning("get_plot")
+def get_plot(x, name, type=0):
     plt.switch_backend('AGG')
     plt.figure(figsize=(10,5))
+    plt.title(f'{name.capitalize()} Price Prediction')
     plt.xlabel('Date')
     plt.ylabel(f'Price USD($)')
     if type != 0:

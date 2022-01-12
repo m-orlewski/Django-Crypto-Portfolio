@@ -1,4 +1,4 @@
-function show_window(type)
+function show_window()
 {
     var list = document.getElementById('window-app');
     var buymenu = document.getElementById('window-app-buy');
@@ -18,25 +18,9 @@ function show_window(type)
         coll[i].addEventListener("click", function()
         {
             list.style.display = "none";
-            if (type) {
-                select_coin(this.id);
-            } else {
-                sendId(this.id);
-            }
-            //buymenu.style.display = "block";
+            sendId(this.id);
         });
     }
-
-    /*
-    window.addEventListener("click", function(event)
-    {
-        if(event.target == buymenu)
-        {
-            list.style.display = "block";
-            buymenu.style.display = "none";
-        }
-    });
-    */
 }
 
 function show_window2()
@@ -57,10 +41,34 @@ function show_window2()
     {
         coll[i].addEventListener("click", function()
         {
-            console.log('eee')
             list.style.display = "none";
             showBalance(this.id);
             
+        });
+    }
+}
+
+function show_window3()
+{
+    console.log('abc');
+    var list = document.getElementById('window-app3');
+    list.style.display="block";
+
+    window.addEventListener("click", function(event)
+    {
+        if(event.target == list)
+        {
+            list.style.display = "none";
+        } 
+    });
+
+    var coll = document.getElementsByClassName("collapsible");
+    for (var i = 0; i < coll.length; i++)
+    {
+        coll[i].addEventListener("click", function()
+        {
+            list.style.display = "none";
+            select_coin(this.id);
         });
     }
 }
