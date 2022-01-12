@@ -43,6 +43,7 @@ def profile(request):
             return HttpResponseRedirect('../../portfolio/profile')
 
     user_data = pu.add_data(user_assets, data)
+    total_balance = "{:.2f}".format(pu.total_portfolio_balance(user_data, data))
     unique_user_data = []
     for asset1 in user_data:
         found = False
@@ -52,8 +53,6 @@ def profile(request):
                 break
         if not found:
             unique_user_data.append(asset1)
-        
-
 
     balance_coin_id = ''
     if request.GET:
@@ -62,14 +61,12 @@ def profile(request):
         for asset in user_assets:
             balance_coin_id = asset.coin_id      
 
-    print(balance_coin_id)
-
     if balance_coin_id != '':
         total = pu.total_balance(user_assets.filter(coin_id=balance_coin_id), balance_coin_id)
         plot = pu.get_balance_plot(total, balance_coin_id)
-        return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data, 'unique_user_data': unique_user_data, 'plot': plot})
+        return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'user_data': user_data, 'unique_user_data': unique_user_data, 'total': total_balance, 'plot': plot})
     else:
-        return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'unique_user_data': unique_user_data, 'user_data': user_data})
+        return render(request, 'portfolio/portfolio.html', context={ 'assets': user_assets, 'api_data': data, 'unique_user_data': unique_user_data, 'user_data': user_data, 'total': total_balance})
 
     
     

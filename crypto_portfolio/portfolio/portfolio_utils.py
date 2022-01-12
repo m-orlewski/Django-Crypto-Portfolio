@@ -1,4 +1,4 @@
-'''File for utility functions related to data from external API'''
+'''File for utility functions related to data from external API and ML'''
 
 import base64
 from io import BytesIO
@@ -9,10 +9,10 @@ import numpy as np
 from datetime import datetime
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-import logging
 from datetime import datetime
 
 def make_request():
+    '''API request for data about all coins'''
     url = 'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false'
     response = requests.get(url)
     status_code = response.status_code
@@ -22,18 +22,18 @@ def make_request():
     
     return response.json()
 
-#Calc functions
 def coin_request_daily(coin):
+    '''API request for coin's price 24H ago'''
     url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=1'
     response = requests.get(url)
     status_code = response.status_code
-
 
     if status_code != 200:
         raise Exception(f"CoinGecko API call failed with status code: {status_code}")
     return response.json()
 
 def total_balance(assets, coin):
+    '''Returns data for plotting account balance with coin'''
     balance = [[], []]
 
     data = coin_request_30d(coin)
@@ -51,7 +51,18 @@ def total_balance(assets, coin):
 
     return balance #[[x], [y]] - x - timestamps, y - balace
 
+def total_portfolio_balance(assets, data):
+    '''Returns total balance of user's portfolio'''
+    total = 0.
+    for asset in assets:
+        for el in data:
+            if el['id'] == asset['id']:   
+                total += asset['amount'] * el['current_price']
+
+    return total
+
 def coin_request_30d(coin):
+    '''Requests data about coin from last day'''
     url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=1'
     response = requests.get(url)
     status_code = response.status_code
@@ -62,6 +73,7 @@ def coin_request_30d(coin):
     return response.json()
 
 def coin_request(coin):
+    '''API call for coin's entire history data'''
     url = f'https://api.coingecko.com/api/v3/coins/{coin}/market_chart?vs_currency=usd&days=max'
     response = requests.get(url)
     status_code = response.status_code
@@ -91,6 +103,7 @@ def get_ml_data(coin):
     return pd.to_datetime(dataset.Date, format='%Y-%m-%d').tail(2 * days).values, dataset.prices.tail(days), y_lrp
 
 def get_graph():
+    '''Utility function for plotting'''
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
@@ -101,6 +114,7 @@ def get_graph():
     return graph
 
 def get_plot(x, name, type=0):
+    '''ML prediction plot'''
     plt.switch_backend('AGG')
     plt.figure(figsize=(10,5))
     plt.title(f'{name.capitalize()} Price Prediction')
@@ -121,6 +135,7 @@ def get_plot(x, name, type=0):
 
 
 def add_data(user_assets, data):
+    '''Data for user's assets'''
     NData = []
     for asset in user_assets.all():
         for elem in data:
@@ -139,6 +154,7 @@ def add_data(user_assets, data):
     return NData
 
 def get_balance_plot(balance, name):
+    '''Account balance plot'''
     x = [datetime.fromtimestamp(int(ts/1000)).strftime('%Y-%m-%d %H:%M:%S') for ts in balance[0]]
     y = balance[1]
     plt.switch_backend('AGG')
