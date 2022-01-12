@@ -30,7 +30,9 @@ def profile(request):
 
     if request.method == "POST":
         form = AssetForm(request.POST)
+        print(form)
         if form.is_valid():
+            print("dziala")
             asset = Asset(amount = form.cleaned_data['amount'],
                           price = form.cleaned_data['price'], 
                           portfolio = current_portfolio,
@@ -75,9 +77,13 @@ def form(request):
     if request.GET:
         id = request.GET.get('id')
         data = pu.make_request()
-        form = AssetForm()
+        dictionary = {}
+        for elem in data:
+            if elem['id'] == id:
+                dictionary['name'] = elem['name']
+                dictionary['img'] = elem['image']
         form = AssetForm(initial={'id': id})
-        return render(request, 'portfolio/form.html', context= {'api_data': data, 'form': form})
+        return render(request, 'portfolio/form.html', context= {'api_data': data, 'form': form, 'dat': dictionary})
     else:
         return render(request, 'portfolio/portfolio.html')
 

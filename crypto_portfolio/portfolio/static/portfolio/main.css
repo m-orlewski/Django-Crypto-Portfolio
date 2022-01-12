@@ -91,3 +91,20 @@ body {
     text-transform: uppercase;
     font-weight: normal;
 }
+
+.form-holder {
+    border:black solid 1px;
+    padding: 20px;
+    margin: 15%;
+    border-radius: 25px;
+}
+
+.inp{
+    width: 96%;
+    height: 40px;
+    margin: 10px;
+    border-radius: 25px;
+    font-size: 20px;
+    text-align: center;
+    box-shadow: 5px 5px 10px;
+}
